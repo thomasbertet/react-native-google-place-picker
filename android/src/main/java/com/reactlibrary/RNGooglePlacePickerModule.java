@@ -72,8 +72,10 @@ public class RNGooglePlacePickerModule extends ReactContextBaseJavaModule implem
         }
     }
 
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    @Deprecated
+    public void onActivityResult(int requestCode, int resultCode, Intent data) { }
+
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) { 
         if (mCallback == null || requestCode != REQUEST_PLACE_PICKER) {
             return;
         }
@@ -85,6 +87,7 @@ public class RNGooglePlacePickerModule extends ReactContextBaseJavaModule implem
             response.putString("address", address.toString());
             response.putDouble("latitude", coordinate.latitude);
             response.putDouble("longitude", coordinate.longitude);
+            response.putString("google_id", place.getId());
             mCallback.invoke(response);
         } else {
             response.putBoolean("didCancel", true);
@@ -92,5 +95,4 @@ public class RNGooglePlacePickerModule extends ReactContextBaseJavaModule implem
             return;
         }
     }
-
 }
